@@ -1,0 +1,7 @@
+name: hint-finance
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{f0Ur_BY73_C0Ll1510N}"
+tags: ["pwn"]
+description: |
+  Earn rewards without risk by depositing tokens into one of HintFinance's vaults!

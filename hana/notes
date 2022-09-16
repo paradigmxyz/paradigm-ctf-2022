@@ -1,0 +1,166 @@
+oki yay ctf time
+wtf am i doing
+
+i wanna do two simple challenges, one that requires rust and one that doesnt
+then work with samcz to figure out how much scaffolding i need to provide to a user
+then i can do some tougher challenges if i get good ideas i think
+
+so whats the easiest possible thing
+simple one might be, deposit and withdraw
+pass in a coupon mint for withdraw but the address isnt checked
+so you can make your own mint, grant authority to the program signer
+then it burns valueless tokens and lets you withdraw
+
+--
+
+ok i wrote the thing
+UNFORTUNATELY i need to impl a fucking like webserver docker image fucking thing
+to run whatever my actual ctf shit is lol
+im thinking im gonna use an ubuntu lxd container and a shell script
+its kind of a waste of time for me to learn docker if we doing dis next month
+so script needs to uhh
+* curlshell rustup, set lts
+* curlshell nvm, set lts, install yarn
+* curlshell solana
+* curlshell anchorvm
+* git clone (or just file push?) ctf repo
+* build anchor programs
+
+next thing is how the fuck do we run dis shit uhh
+hmm if i can shunt all the setup code into deploy scripts mb anchor deploy will hook me up
+then... i need a simple webserver that does like
+* player asks for a new instance, server starts a solana chain for them and gives them a uuid
+  server also deploys programs and runs whatever account setup code is necessary
+  server... could gen a privkey for each user? store one used by everyone? have player provide pubkey?
+  its not entirely clear to me how anchor local provider interfaces with this shit
+* player submits rpc request and auth uuid, server runs against chain
+* player submits problem id and auth uuid, server checks win condition and returns flag or false
+
+i guess thats pretty simple? the biggest problem is the test validator is very heavy
+idk how many of these fuckers we can actually run on one machine lol
+
+oooh ok here we fuckin go: https://github.com/neodyme-labs/solana-poc-framework
+samcz made me aware this is a thing that exists
+i looked at the code a lil and the local builder seems perfect
+the local environment builder can add
+* accounts with data or lamps
+* program accounts from precompiled so
+* token mints, accounts, associated accounts
+* clone accounts from any live cluster
+and then it executes transactions by just using the solana runtime code to advance bank state
+uhh as long as i can read the bank state after the fact then this should be perfect
+
+so i want to write a rust webserver that issues uuids and stores them in a sqlite db or something
+then players send an array of txns, a challenge id, and their uuid
+server responds with a flag or an error. probably no error introspection so i dont have to worry about oracle shit
+uhhh providing this framework so players can test their own challenges locally is a later concern
+ehhh ughhh no i have to because i no longer have my fucking setup scripts
+so i cant just tell them to run it on their own local chain lol
+i guess i dont even need uuids for shit because without a validator this is all stateless
+
+the other possible design is stateful and i store the bank states on disk but fuck that
+thats too complicated if im targeting april and while it might be "cool" i dont need it
+neat this is pretty fuckin sick concept. the codebase doesnt change much either
+
+TOMORROW clone their shit and write an example using my existing attack thing
+
+--
+
+alriht im at a crossroads i ahve two possible designs adn they are
+* keep working with the poc framework
+* run one test validator for everyone and restrict the api
+how would these flow
+
+POC
+container, rust webserver that simply routes to our functions. fully stateless
+end user builds and serializes a transaction array and challenge number and posts it
+server deserializes and runs it against the proper challenge function
+this inits a fresh version of the gamestate bank and then executes in sequence
+said function also checks the win condition and returns a flag or None
+this is returned back to the player as a flag and 200, or a simple 400
+player can do their local dev against a copy of the container with debug logging
+unfortunately getting rpc call output is impossible, theyd need to edit the rust code
+
+VAL
+container, rust or js webserver whatevers convenient, solana-test-validator
+webserver maintains a simple auth db. users sign up with a password or whatever
+accounts are *all* derived addresses from the players pubkey and password
+password is just so if people post their pubkeys its not enough to let others fuck w them lol
+the other option is to have people sign their rpc requests
+the idea here is... getAccount calls have to be authenticated
+uhh wait hm what if i ban all rpc except sendTransaction...
+
+ok actually after a lil talk with samcz i think option two is the way
+container, proxy, validator. proxy only needs three endpoints
+* create user: issue a user a keypair (or register a pubkey?)
+  run setup scripts to create all necessary accounts for that user, namespaced by pubkey
+* run transaction: receive a transaction and pass it to the validator
+  i did a hard thinky and i believe there are no sidechannels here
+* get flag: check the validator for a winstate for a given pubkey and challenge
+  return the string if successful or opaque error if not
+this setup also makes it very easy for a player to run on their own
+they can shell into the container and get whatever from the chain they want
+also samcz suggested an env var to enable full rpc which could def do too
+hell, we could use their jsonrpc envelope and add our two fake methods
+then server just parses and handles three message types and rejects the rest
+
+alright i feel really good about this now
+uhh webserver may as well use rust ig, express is easy but idk how brittle
+wait no isnt nodejs singlethreaded? ok fuck that garbage yea
+gakon recommended axum. successor to warp and built on tokio, thats all i need to hear
+
+--
+
+ok i have a couple trivial things to fix but basically back to challenges
+what do i wanna do
+* unchecked mint (this i already did)
+* some kinda cpi thing that requires writing a program
+  maybe as a vanilla solana program? so i can use classic invoke
+  the one i like is an unchecked token program plus invoke takes the full array
+  so youd add token on the end and write a program that steals tokens
+* something that takes advantage of close authority
+  program takes ownership of a deposit account, user closes it
+  something like a marketplace ig
+* some kind of decimal fuckup. maybe a poorly designed cross-collat thing?
+  idk its hard to think of something thats not too obvious
+  was thinking maybe clone sollet/wormhole/lido ether, to hide the decimal difference
+  how to set/change the authority is kinda weird tho idk
+  i guess i can pull the account data and just change the authorities?
+  but it wouldnt let me init at those addresses... kinda defeats the point
+  idk anyway the idea is, multiple mints with "identical" backing collateral
+  deposit 100 steth, get 100 csteth. burn 100 csteth, get 100 back
+  but theres a vuln where you can use any valid collat
+  but normally this is nbd since all three are the same thing
+  in this case you can deposit 10^6 wormhole eth (0.01eth)
+  and then withdraw 10^6 sollet eth (1eth)
+  then... i guess there needs to be some kind of transmute or 3crv pool?
+  yea this might actually be too ambitious its a cool attack tho
+  hmm maybe not? simplify 3crv like... deposit any eth collat and get 3crv
+  redeem 3crv for a chosen eth and... uhh actually maybe just like
+  - deposit: deposit any eth into a pool and get matching collat tokens
+  - withdraw: withdraw any eth for the corresponding (actually any) collat token
+  - swap: exchange any eth for any other, handling decimals properly
+  ok this is easily doable. hrmm how actually... do I structure
+  clone the three mints, make three pools with them
+  so you pass in a valid pool account and it uses that mint to key the token account
+  but you pass in a mint and it uses that to key the voucher account
+  so you can have a mismatch between them
+* clone adobe and remove a safety check for one of the weirder cpi attacks
+  ooh yea the last thing is *perfect*. borrow, proxy repay, proxy borrow, repay
+  you can borrow half when even and half plus one when odd so the pool goes
+  100->51->26->14->8->5->3->2. make the player do that
+
+--
+
+ok 7/27 now im going home when im back
+X try git clone again
+X run docker in the cloned dir to make sure it works *as a server*
+* clean up my comments and shit
+* make a branch that removes anything player-sensitive
+  - notes on what we hide or lie about
+  - js solution code
+  - master key (gen a new one)
+  - master key constraints in the chain programs
+  - rebuild the programs
+* write a readme
+* beg sam for a sever and see if we can load test or anything

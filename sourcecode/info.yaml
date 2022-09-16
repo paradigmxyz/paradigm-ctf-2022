@@ -1,0 +1,7 @@
+name: sourcecode
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{QUiNE_QuiNe_qU1n3}"
+tags: ["puzzle"]
+description: |
+  Fixed point EVM bytecode

@@ -1,0 +1,9 @@
+name: trapdoooor
+author: ["samczsun"]
+rpc_port: 8545
+flag: "PCTF{d0n7_y0u_10v3_f1nd1n9_0d4y5_1n_4_c7f}"
+tags: ["pwn", "oops"]
+description: |
+  In theoretical computer science and cryptography, a trapdoor function is a function that is easy to compute in
+  one direction, yet difficult to compute in the opposite direction (finding its inverse) without special
+  information, called the "trapdoor".

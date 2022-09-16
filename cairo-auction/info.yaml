@@ -1,0 +1,7 @@
+name: "cairo-auction"
+author: ["BitBaseBit"]
+flag: "PCTF{y0u_7h0u9h7_17_w45_4_p21m171v3_7yp3_8u7_17_w45_m3_d10}"
+rpc_port: 5050
+tags: ["pwn"]
+description: |
+  Just a simple auction contract

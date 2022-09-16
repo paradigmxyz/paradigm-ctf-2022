@@ -1,0 +1,7 @@
+name: rescue
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{MuCH_4PPr3C1473_53r}"
+tags: ["pwn"]
+description: |
+  I accidentally sent some WETH to a contract, can you help me?

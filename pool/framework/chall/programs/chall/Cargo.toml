@@ -1,0 +1,23 @@
+[package]
+name = "chall"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "chall"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.25.0"
+anchor-spl = "0.25.0"
+spl-token = "3.3.0"
+spl-associated-token-account = "1.0.5"
+solana-program = "1.10.29"

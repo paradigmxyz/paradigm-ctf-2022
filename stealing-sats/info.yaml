@@ -1,0 +1,7 @@
+name: stealing-sats
+author: ["samczsun"]
+rpc_port: 8545
+flag: "PCTF{41w4y5_54n17123_y0u2_1npu75}"
+tags: ["pwn", "u up?"]
+description: |
+  Stacking sats is much more enjoyable when they're not your sats.

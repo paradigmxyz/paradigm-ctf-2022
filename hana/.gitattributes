@@ -1,0 +1,4 @@
+*.so filter=lfs diff=lfs merge=lfs -text
+docker/anchor-0.24.2 filter=lfs diff=lfs merge=lfs -text
+docker/solana-1.9.29 filter=lfs diff=lfs merge=lfs -text
+docker/solana-test-validator-1.9.29 filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,7 @@
+name: electric-sheep
+author: ["samczsun"]
+rpc_port: 8545
+flag: "PCTF{w323_411_d234m1n9_n0w}"
+tags: ["pwn", "u up?"]
+description: |
+  Do smart contracts dream of tokenized sheep?

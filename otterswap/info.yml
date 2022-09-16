@@ -1,0 +1,6 @@
+name: OtterSwap
+author: ["NotDeGhost (osec.io)"]
+flag: "PCTF{l00k_th3_0tt3r_way_z8210}"
+tags: ["pwn"]
+description: |-
+  Otter's are bad at math..

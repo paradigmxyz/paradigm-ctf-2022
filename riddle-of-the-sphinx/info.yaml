@@ -1,0 +1,7 @@
+name: "riddle-of-the-sphinx"
+author: ["samczsun"]
+rpc_port: 8545
+flag: "PCTF{600D_1UCK_H4V3_FUN}"
+tags: ["sanity check"]
+description: |
+  What walks on four legs in the morning, two legs in the afternoon, three legs in the evening, and no legs at night?

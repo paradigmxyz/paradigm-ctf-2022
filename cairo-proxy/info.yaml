@@ -1,0 +1,7 @@
+name: "cairo-proxy"
+author: ["BitBaseBit"]
+flag: "PCTF{d3f4u17_pu811c_5721k35_4941n}"
+rpc_port: 5050
+tags: ["pwn"]
+description: |
+  Just a simple proxy contract

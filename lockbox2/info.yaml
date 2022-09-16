@@ -1,0 +1,7 @@
+name: lockbox2
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{10ck80x_20ck5}"
+tags: ["puzzle"]
+description: |
+  The long-awaited sequel.

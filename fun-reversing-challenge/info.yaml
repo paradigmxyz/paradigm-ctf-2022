@@ -1,0 +1,7 @@
+name: Fun Reversing Challenge
+author: ["cts (Zellic.io)"]
+rpc_port: 8545
+flag: "PCTF{this is my flag 1236a9erqA346924ASDA}"
+tags: ["rev", "crypto"]
+description: |
+  https://twitter.com/gf_256/status/1560900275103301634

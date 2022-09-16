@@ -1,0 +1,41 @@
+name: moar-horse-5
+author: kfb
+description: |-
+  Moar Horse Industries believes everyone has the right to buy and sell horses freely. We have millions of satisfied users:
+
+  "moar horse? more like moar otter lmao"
+
+  "worst horses I've ever seen"
+
+  "ottersec has much better horses too"
+
+  `{{ nc }}`
+
+provide:
+  - kind: zip
+    spec:
+      as: server.zip
+      exclude:
+        - challenge/flag.txt
+      files:
+        - challenge
+        - server
+        - program
+      additional:
+        - path: challenge/flag.txt
+          str: flag{fake_flag}
+
+flag:
+  file: challenge/flag.txt
+
+containers:
+  main:
+    build: challenge
+    replicas: 1
+    ports:
+      - 5000
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31365

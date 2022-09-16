@@ -1,0 +1,7 @@
+name: just-in-time
+author: ["cts (Zellic.io)"]
+rpc_port: 8545
+flag: "PCTF{yOu_cAnT_jUmP_iNto_tHe_miDdLe_oF_aN_iNStRuCtIoN}"
+tags: ["pwn"]
+description: |
+  This challenge is called Just in Time because I wrote it the night before the CTF

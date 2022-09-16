@@ -1,0 +1,7 @@
+name: vanity
+author: ["samczsun"]
+rpc_port: 8545
+flag: "PCTF{D0N7_F0r637_480U7_Pr3C0MP1135}"
+tags: ["pwn"]
+description: |
+  Just think of the gas savings!

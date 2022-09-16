@@ -1,0 +1,7 @@
+name: random
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{IT5_C7F_71M3}"
+tags: ["sanity check"]
+description: |
+  I'm thinking of a number between 4 and 4...

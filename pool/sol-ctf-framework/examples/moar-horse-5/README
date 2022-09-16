@@ -1,0 +1,4 @@
+build a challenge server with `docker build challenge` (maybe give it a tag too with `-t`)
+if you want to build the program or server from source, then run `make` in those directories
+ideally this would be one step, but building everything in docker was taking too long :lemonthink:
+if you need help installing things, then check here: https://docs.solana.com/developing/on-chain-programs/developing-rust

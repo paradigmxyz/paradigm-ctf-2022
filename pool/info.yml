@@ -1,0 +1,6 @@
+name: pool
+author: ["fcremo (Zellic.io)"]
+flag: "PCTF{7079667a91dd4fc75ce2a7f75e9aeb9c}"
+tags: ["pwn"]
+description: |-
+  There's an anchor in my pool, and it's all rusted up

@@ -1,0 +1,7 @@
+name: merkledrop
+author: ["Riley Holterhus"]
+rpc_port: 8545
+flag: "PCTF{N1C3_Pr00F_8r0}"
+tags: ["pwn"]
+description: |
+  Were you whitelisted?

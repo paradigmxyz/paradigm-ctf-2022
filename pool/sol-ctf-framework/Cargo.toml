@@ -3,7 +3,6 @@ name = "sol-ctf-framework"
 version = "0.1.0"
 edition = "2021"
 license = "BSD-3-Clause"
-homepage = "https://github.com/otter-sec/sol-ctf-framework"
 description = "A framework for building solana based capture the flag challenges"
 repository = "https://github.com/otter-sec/sol-ctf-framework"
 
